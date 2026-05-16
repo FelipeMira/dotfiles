@@ -119,20 +119,5 @@ fi
 line1="${model_part} ${SEP} ${dir_part}${git_part}${worktree_part}${session_part}"
 line2="${ctx_part}${session_tokens}${rate_part}${vim_part}"
 
-# ── Largura do terminal (fallback 120) ──
-TERM_WIDTH=$(tput cols 2>/dev/null || echo 120)
-
-# Estimativa de largura: strip ANSI e conta chars (emoji vale ~2 cols)
-strip_ansi() { printf "%s" "$1" | sed 's/\x1b\[[0-9;]*[mK]//g'; }
-plain1=$(strip_ansi "$line1")
-plain2=$(strip_ansi "$line2")
-# Adiciona ~2 por emoji (heurística: conta sequências unicode acima de U+00FF)
-emoji_count=$(printf "%s" "${plain1}${plain2}" | grep -oP '[^\x00-\xFF]' 2>/dev/null | wc -l)
-estimated_width=$(( ${#plain1} + ${#plain2} + emoji_count + 6 ))
-
-# ── Assemble ──
-if [ "$estimated_width" -gt "$TERM_WIDTH" ]; then
-  printf "%s\n%s" "${line1}" "${line2}"
-else
-  printf "%s %s" "${line1}" "${line2}"
-fi
+# ── Assemble em duas linhas ──
+printf "%s\n%s" "${line1}" "${line2}"
