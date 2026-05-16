@@ -4,14 +4,19 @@ Configuração do terminal e do Claude Code para qualquer máquina nova.
 
 ## O que inclui
 
+### Terminal (zsh)
 - **Oh My Zsh** com tema `agnoster`
-- **Plugins zsh:**
-  - `zsh-autosuggestions` — sugestões enquanto digita (aceite com `→`)
-  - `zsh-syntax-highlighting` — comandos ficam verdes (válido) ou vermelhos (inválido)
+- **Plugins:**
+  - `zsh-autosuggestions` — sugestões em cinza enquanto digita, aceite com `→`
+  - `zsh-syntax-highlighting` — comandos ficam verdes (válido) ou vermelhos (inválido) em tempo real
   - `macos` — atalhos úteis para macOS
-  - `git` — info de branch no prompt
-- **Claude Code statusline** — modelo, pasta, branch, barra de contexto e uso de rate limits
-  - Animação de pensamento com emojis ciclando a cada segundo
+  - `git` — aliases e info de branch no prompt
+
+### Claude Code
+- **Statusline personalizada** com animação, ícones e informações de contexto
+- **CLAUDE.md** gerado a partir de template com merge automático de novas seções
+
+---
 
 ## Instalação
 
@@ -22,13 +27,13 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-Após o setup, abra uma nova aba do terminal ou rode:
-
-> Configs específicas da sua máquina (paths, aliases, SDKs) ficam em `~/.zshrc.local` — esse arquivo é carregado automaticamente mas nunca vai pro repositório.
+O script instala e configura tudo automaticamente. Após o setup:
 
 ```bash
 source ~/.zshrc
 ```
+
+---
 
 ## Estrutura
 
@@ -36,34 +41,63 @@ source ~/.zshrc
 dotfiles/
 ├── setup.sh                    # script de instalação
 ├── zsh/
-│   └── zshrc                   # configuração do zsh / Oh My Zsh
+│   └── zshrc                   # configuração base do zsh / Oh My Zsh
 └── claude/
-    ├── settings.json           # configurações do Claude Code (tema, statusline)
-    ├── statusline-command.sh   # statusline personalizada
+    ├── settings.json           # tema e comando da statusline
+    ├── statusline-command.sh   # script da statusline personalizada
     └── CLAUDE.md.example       # template de instruções para o Claude
 ```
 
 ### Arquivos locais (não versionados)
 
+Estes arquivos ficam apenas na sua máquina e nunca sobem para o repositório:
+
 | Arquivo | Descrição |
 |---|---|
-| `~/.zshrc.local` | Paths e aliases específicos da sua máquina (SDKs, ferramentas) |
-| `~/.claude/CLAUDE.md` | Instruções pessoais para o Claude (tom, contexto local, preferências) |
+| `~/.zshrc.local` | Paths e aliases específicos da máquina (SDKs, ferramentas, etc.) |
+| `~/.claude/CLAUDE.md` | Instruções pessoais para o Claude (tom, preferências, contexto local) |
 
-O `setup.sh` cria o `CLAUDE.md` a partir do template na primeira execução. Edite-o com suas preferências — ele nunca será sobrescrito pelo setup.
+O `~/.zshrc` carrega o `~/.zshrc.local` automaticamente se ele existir.
+
+### CLAUDE.md — comportamento do setup
+
+- **Primeira execução:** cria `~/.claude/CLAUDE.md` a partir do `CLAUDE.md.example`
+- **Execuções seguintes:** compara seção por seção (`## Cabeçalho`) e adiciona ao final apenas as seções que ainda não existem no arquivo — o conteúdo existente nunca é alterado
+
+---
 
 ## Statusline do Claude Code
 
-A barra inferior do Claude Code exibe:
+A barra inferior do Claude Code exibe em tempo real:
 
 ```
 🤔 │ Claude Sonnet 4 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 42% │ ⏱️ 5h 9% · 7d 1%
 ```
 
-| Segmento | Descrição |
-|---|---|
-| Emoji animado | Cicla a cada segundo: 🤔 💭 🧠 ✨ 💡 ⚡ 🔮 🌀 |
-| `📂 Pasta` | Diretório de trabalho atual |
-| `🌿 Branch` | Branch git atual |
-| `🧩 ctx: ████░░` | Uso da janela de contexto (verde → amarelo → vermelho) |
-| `⏱️ 5h X% · 7d X%` | Uso de rate limits agrupados (quando disponível) |
+| Segmento | Ícone | Descrição |
+|---|---|---|
+| Animação de pensamento | 🤔 💭 🧠 ✨ 💡 ⚡ 🔮 🌀 | Cicla a cada segundo enquanto o Claude está ativo |
+| Modelo | — | Nome do modelo ativo (ex: Claude Sonnet 4) |
+| Pasta | 📂 | Diretório de trabalho atual (com `~` no lugar do home) |
+| Branch | 🌿 | Branch git atual (só aparece em repositórios git) |
+| Contexto | 🧩 | Barra de uso da janela de contexto — muda de cor: verde → amarelo → vermelho |
+| Rate limits | ⏱️ | Uso das cotas de 5h e 7d separados por `·` (quando disponível) |
+
+---
+
+## Personalização
+
+### Adicionar configs locais ao terminal
+
+Crie ou edite `~/.zshrc.local`:
+
+```bash
+# Exemplo: Java, Python, Android SDK
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+export ANDROID_HOME=$HOME/Library/Android/sdk
+alias python="python3.11"
+```
+
+### Personalizar instruções do Claude
+
+Edite `~/.claude/CLAUDE.md` com suas preferências pessoais — tom de resposta, idioma, contexto de projetos, restrições, etc. Use o `CLAUDE.md.example` como referência de estrutura.
