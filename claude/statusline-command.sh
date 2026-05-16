@@ -70,7 +70,7 @@ fi
 session_tokens=""
 if [ -n "$total_in" ] && [ -n "$total_out" ]; then
   total_tokens_k=$(echo "$total_in $total_out" | awk '{printf "%.0f", ($1+$2)/1000}')
-  session_tokens=$(printf " ${SEP} ${C_PURPLE}💬 ${total_tokens_k}k tokens${RESET}")
+  session_tokens=$(printf " ${SEP} ${C_PURPLE}💬 ${total_tokens_k}k${RESET}")
 fi
 
 # ── Separator ──
@@ -91,7 +91,7 @@ case $frame_index in
 esac
 
 # ── Build parts ──
-model_part=$(printf "${C_MAGENTA}${thinking_emoji} ${SEP} ${BOLD}${model}${RESET}")
+model_part=$(printf "${C_MAGENTA}${BOLD}${model}${RESET}")
 dir_part=$(printf "${C_CYAN}📂 ${BOLD}${cwd_display}${RESET}")
 
 git_part=""
