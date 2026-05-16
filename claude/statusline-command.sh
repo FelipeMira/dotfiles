@@ -66,10 +66,10 @@ thinking_emoji="${thinking_frames[$frame_index]}"
 
 # ── Build parts ──
 model_part=$(printf "${C_MAGENTA}${thinking_emoji} ${BOLD}${model}${RESET}")
-dir_part=$(printf "${C_CYAN} ${BOLD}${cwd_display}${RESET}")
+dir_part=$(printf "${C_CYAN}📂 ${BOLD}${cwd_display}${RESET}")
 
 git_part=""
-[ -n "$git_branch" ] && git_part=$(printf " ${SEP} ${C_YELLOW} ${git_branch}${RESET}")
+[ -n "$git_branch" ] && git_part=$(printf " ${SEP} ${C_YELLOW}🌿 ${git_branch}${RESET}")
 
 worktree_part=""
 [ -n "$git_worktree" ] && worktree_part=$(printf " ${SEP} ${C_BLUE}⎇ ${git_worktree}${RESET}")
@@ -78,16 +78,22 @@ session_part=""
 [ -n "$session_name" ] && session_part=$(printf " ${SEP} ${C_PURPLE} ${session_name}${RESET}")
 
 ctx_part=""
-[ -n "$context_bar" ] && ctx_part=$(printf " ${SEP} ${C_WHITE}ctx:${RESET} ")$(printf "%s" "${context_bar}")
+[ -n "$context_bar" ] && ctx_part=$(printf " ${SEP} ${C_WHITE}🧩 ctx:${RESET} ")$(printf "%s" "${context_bar}")
 
 rate_part=""
-if [ -n "$five_hr" ]; then
-  five_rounded=$(printf '%.0f' "$five_hr")
-  rate_part=$(printf " ${SEP} ${C_YELLOW}5h: ${five_rounded}%%${RESET}")
-fi
-if [ -n "$seven_day" ]; then
-  seven_rounded=$(printf '%.0f' "$seven_day")
-  rate_part="${rate_part}$(printf " ${C_BLUE}7d: ${seven_rounded}%%${RESET}")"
+if [ -n "$five_hr" ] || [ -n "$seven_day" ]; then
+  rate_part=$(printf " ${SEP} ⏱️ ")
+  if [ -n "$five_hr" ]; then
+    five_rounded=$(printf '%.0f' "$five_hr")
+    rate_part="${rate_part}$(printf "${C_YELLOW}5h ${five_rounded}%%${RESET}")"
+  fi
+  if [ -n "$five_hr" ] && [ -n "$seven_day" ]; then
+    rate_part="${rate_part}$(printf " ${C_WHITE}·${RESET} ")"
+  fi
+  if [ -n "$seven_day" ]; then
+    seven_rounded=$(printf '%.0f' "$seven_day")
+    rate_part="${rate_part}$(printf "${C_BLUE}7d ${seven_rounded}%%${RESET}")"
+  fi
 fi
 
 vim_part=""

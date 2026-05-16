@@ -45,14 +45,13 @@ dotfiles/
 A barra inferior do Claude Code exibe:
 
 ```
-🤔 Claude Sonnet 4 │  ~/pasta │  main │  ctx: ████░░░░░░ 42%
+🤔 Claude Sonnet 4 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 42% │ ⏱️ 5h 9% · 7d 1%
 ```
 
 | Segmento | Descrição |
 |---|---|
 | Emoji animado | Cicla a cada segundo: 🤔 💭 🧠 ✨ 💡 ⚡ 🔮 🌀 |
-| ` Modelo` | Nome do modelo ativo |
-| ` Pasta` | Diretório de trabalho atual |
-| ` Branch` | Branch git atual |
-| `ctx: ████░░` | Uso da janela de contexto (verde → amarelo → vermelho) |
-| `5h / 7d` | Uso de rate limits (quando disponível) |
+| `📂 Pasta` | Diretório de trabalho atual |
+| `🌿 Branch` | Branch git atual |
+| `🧩 ctx: ████░░` | Uso da janela de contexto (verde → amarelo → vermelho) |
+| `⏱️ 5h X% · 7d X%` | Uso de rate limits agrupados (quando disponível) |
