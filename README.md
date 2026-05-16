@@ -71,7 +71,7 @@ O `~/.zshrc` carrega o `~/.zshrc.local` automaticamente se ele existir.
 A barra inferior do Claude Code exibe em tempo real:
 
 ```
-🤔 │ Claude Sonnet 4 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 42% │ ⏱️ 5h 9% · 7d 1%
+🤔 │ Claude Sonnet 4 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 37% 74k/200k │ 💬 43k tokens │ ⏱️ 5h 9% · 7d 1%
 ```
 
 | Segmento | Ícone | Descrição |
@@ -80,7 +80,8 @@ A barra inferior do Claude Code exibe em tempo real:
 | Modelo | — | Nome do modelo ativo (ex: Claude Sonnet 4) |
 | Pasta | 📂 | Diretório de trabalho atual (com `~` no lugar do home) |
 | Branch | 🌿 | Branch git atual (só aparece em repositórios git) |
-| Contexto | 🧩 | Barra de uso da janela de contexto — muda de cor: verde → amarelo → vermelho |
+| Contexto | 🧩 | Barra + percentual + tokens usados/total da janela de contexto (muda de cor: verde → amarelo → vermelho) |
+| Tokens da sessão | 💬 | Total acumulado de tokens (input + output) na conversa atual |
 | Rate limits | ⏱️ | Uso das cotas de 5h e 7d separados por `·` (quando disponível) |
 
 ---

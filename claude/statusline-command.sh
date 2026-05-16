@@ -21,6 +21,9 @@ model=$(echo "$input" | jq -r '.model.display_name // "Claude"')
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // "~"')
 session_name=$(echo "$input" | jq -r '.session_name // empty')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // empty')
+total_in=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
+total_out=$(echo "$input" | jq -r '.context_window.total_output_tokens // empty')
 five_hr=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 seven_day=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 git_worktree=$(echo "$input" | jq -r '.workspace.git_worktree // empty')
@@ -51,7 +54,23 @@ if [ -n "$used_pct" ]; then
     bar_color="$C_GREEN"
   fi
   pct_rounded=$(printf '%.0f' "$used_pct")
-  context_bar=$(printf "${bar_color}${bar}${RESET} ${pct_rounded}%%")
+
+  # Tokens da janela de contexto (em K)
+  ctx_tokens_display=""
+  if [ -n "$ctx_size" ] && [ "$ctx_size" -gt 0 ] 2>/dev/null; then
+    ctx_used_k=$(echo "$used_pct $ctx_size" | awk '{printf "%.0f", ($1/100 * $2)/1000}')
+    ctx_total_k=$(echo "$ctx_size" | awk '{printf "%.0f", $1/1000}')
+    ctx_tokens_display=" ${ctx_used_k}k/${ctx_total_k}k"
+  fi
+
+  context_bar=$(printf "${bar_color}${bar}${RESET} ${pct_rounded}%%")$(printf "%s" "${ctx_tokens_display}")
+fi
+
+# ── Tokens acumulados da sessão ──
+session_tokens=""
+if [ -n "$total_in" ] && [ -n "$total_out" ]; then
+  total_tokens_k=$(echo "$total_in $total_out" | awk '{printf "%.0f", ($1+$2)/1000}')
+  session_tokens=$(printf " ${SEP} ${C_PURPLE}💬 ${total_tokens_k}k tokens${RESET}")
 fi
 
 # ── Separator ──
@@ -113,4 +132,4 @@ if [ -n "$vim_mode" ]; then
 fi
 
 # ── Assemble — use printf "%s" to avoid % being interpreted as format specifier ──
-printf "%s" "${model_part} ${SEP} ${dir_part}${git_part}${worktree_part}${session_part}${ctx_part}${rate_part}${vim_part}"
+printf "%s" "${model_part} ${SEP} ${dir_part}${git_part}${worktree_part}${session_part}${ctx_part}${session_tokens}${rate_part}${vim_part}"
