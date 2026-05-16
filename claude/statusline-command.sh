@@ -16,6 +16,9 @@ C_RED="\033[31m"
 C_WHITE="\033[37m"
 C_MAGENTA="\033[95m"
 
+# ── Separator (definido antes de tudo) ──
+SEP=$(printf "${C_WHITE}│${RESET}")
+
 # ── Extract data from JSON ──
 model=$(echo "$input" | jq -r '.model.display_name // "Claude"')
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // "~"')
@@ -55,7 +58,6 @@ if [ -n "$used_pct" ]; then
   fi
   pct_rounded=$(printf '%.0f' "$used_pct")
 
-  # Tokens da janela de contexto (em K)
   ctx_tokens_display=""
   if [ -n "$ctx_size" ] && [ "$ctx_size" -gt 0 ] 2>/dev/null; then
     ctx_used_k=$(echo "$used_pct $ctx_size" | awk '{printf "%.0f", ($1/100 * $2)/1000}')
@@ -65,30 +67,6 @@ if [ -n "$used_pct" ]; then
 
   context_bar=$(printf "${bar_color}${bar}${RESET} ${pct_rounded}%%")$(printf "%s" "${ctx_tokens_display}")
 fi
-
-# ── Tokens acumulados da sessão ──
-session_tokens=""
-if [ -n "$total_in" ] && [ -n "$total_out" ]; then
-  total_tokens_k=$(echo "$total_in $total_out" | awk '{printf "%.0f", ($1+$2)/1000}')
-  session_tokens=$(printf " ${SEP} ${C_PURPLE}💬 ${total_tokens_k}k${RESET}")
-fi
-
-# ── Separator ──
-SEP=$(printf "${C_WHITE}│${RESET}")
-
-# ── Thinking animation (cycles every second) ──
-current_sec=$(date +%s)
-frame_index=$(( current_sec % 8 ))
-case $frame_index in
-  0) thinking_emoji="🤔" ;;
-  1) thinking_emoji="💭" ;;
-  2) thinking_emoji="🧠" ;;
-  3) thinking_emoji="✨" ;;
-  4) thinking_emoji="💡" ;;
-  5) thinking_emoji="⚡" ;;
-  6) thinking_emoji="🔮" ;;
-  7) thinking_emoji="🌀" ;;
-esac
 
 # ── Build parts ──
 model_part=$(printf "${C_MAGENTA}${BOLD}${model}${RESET}")
@@ -104,7 +82,13 @@ session_part=""
 [ -n "$session_name" ] && session_part=$(printf " ${SEP} ${C_PURPLE} ${session_name}${RESET}")
 
 ctx_part=""
-[ -n "$context_bar" ] && ctx_part=$(printf " ${SEP} ${C_WHITE}🧩 ctx:${RESET} ")$(printf "%s" "${context_bar}")
+[ -n "$context_bar" ] && ctx_part=$(printf "${SEP} ${C_WHITE}🧩 ctx:${RESET} ")$(printf "%s" "${context_bar}")
+
+session_tokens=""
+if [ -n "$total_in" ] && [ -n "$total_out" ]; then
+  total_tokens_k=$(echo "$total_in $total_out" | awk '{printf "%.0f", ($1+$2)/1000}')
+  session_tokens=$(printf " ${SEP} ${C_PURPLE}💬 ${total_tokens_k}k${RESET}")
+fi
 
 rate_part=""
 if [ -n "$five_hr" ] || [ -n "$seven_day" ]; then
@@ -131,5 +115,24 @@ if [ -n "$vim_mode" ]; then
   fi
 fi
 
-# ── Assemble — use printf "%s" to avoid % being interpreted as format specifier ──
-printf "%s" "${model_part} ${SEP} ${dir_part}${git_part}${worktree_part}${session_part}${ctx_part}${session_tokens}${rate_part}${vim_part}"
+# ── Linha 1: identidade  |  Linha 2: métricas ──
+line1="${model_part} ${SEP} ${dir_part}${git_part}${worktree_part}${session_part}"
+line2="${ctx_part}${session_tokens}${rate_part}${vim_part}"
+
+# ── Largura do terminal (fallback 120) ──
+TERM_WIDTH=$(tput cols 2>/dev/null || echo 120)
+
+# Estimativa de largura: strip ANSI e conta chars (emoji vale ~2 cols)
+strip_ansi() { printf "%s" "$1" | sed 's/\x1b\[[0-9;]*[mK]//g'; }
+plain1=$(strip_ansi "$line1")
+plain2=$(strip_ansi "$line2")
+# Adiciona ~2 por emoji (heurística: conta sequências unicode acima de U+00FF)
+emoji_count=$(printf "%s" "${plain1}${plain2}" | grep -oP '[^\x00-\xFF]' 2>/dev/null | wc -l)
+estimated_width=$(( ${#plain1} + ${#plain2} + emoji_count + 6 ))
+
+# ── Assemble ──
+if [ "$estimated_width" -gt "$TERM_WIDTH" ]; then
+  printf "%s\n%s" "${line1}" "${line2}"
+else
+  printf "%s %s" "${line1}" "${line2}"
+fi
