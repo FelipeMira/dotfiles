@@ -45,7 +45,7 @@ dotfiles/
 A barra inferior do Claude Code exibe:
 
 ```
-🤔 Claude Sonnet 4 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 42% │ ⏱️ 5h 9% · 7d 1%
+🤔 │ Claude Sonnet 4 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 42% │ ⏱️ 5h 9% · 7d 1%
 ```
 
 | Segmento | Descrição |
