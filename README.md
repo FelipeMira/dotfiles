@@ -71,7 +71,7 @@ O `~/.zshrc` carrega o `~/.zshrc.local` automaticamente se ele existir.
 A barra inferior do Claude Code exibe em tempo real:
 
 ```
-Sonnet 4.6 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░░░░░ 37% 74k/200k │ 💬 48k │ ⏱️ 5h 9% · 7d 1%
+Sonnet 4.6 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░ 37% 74k/200k │ 💬 48k │ ⏱️ 5h 9% · 7d 1%
 ```
 
 | Segmento | Ícone | Descrição |
