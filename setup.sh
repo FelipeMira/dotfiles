@@ -51,7 +51,37 @@ if [ ! -f "$HOME/.claude/CLAUDE.md" ]; then
   cp "$SCRIPT_DIR/claude/CLAUDE.md.example" "$HOME/.claude/CLAUDE.md"
   echo "✅ CLAUDE.md criado a partir do template — edite ~/.claude/CLAUDE.md com suas preferências pessoais."
 else
-  echo "✅ CLAUDE.md já existe, mantido sem alterações."
+  echo "⚙️  CLAUDE.md existe — verificando seções novas..."
+  added=0
+  current_header=""
+  current_section=""
+
+  while IFS= read -r line || [ -n "$line" ]; do
+    if [[ "$line" =~ ^##\  ]]; then
+      # Processa seção anterior
+      if [ -n "$current_header" ] && ! grep -qF "$current_header" "$HOME/.claude/CLAUDE.md"; then
+        printf "\n%s\n" "$current_section" >> "$HOME/.claude/CLAUDE.md"
+        added=$((added + 1))
+      fi
+      current_header="$line"
+      current_section="$line"
+    elif [ -n "$current_header" ]; then
+      current_section="$current_section
+$line"
+    fi
+  done < "$SCRIPT_DIR/claude/CLAUDE.md.example"
+
+  # Processa última seção
+  if [ -n "$current_header" ] && ! grep -qF "$current_header" "$HOME/.claude/CLAUDE.md"; then
+    printf "\n%s\n" "$current_section" >> "$HOME/.claude/CLAUDE.md"
+    added=$((added + 1))
+  fi
+
+  if [ "$added" -gt 0 ]; then
+    echo "✅ $added seção(ões) nova(s) adicionada(s) ao CLAUDE.md."
+  else
+    echo "✅ CLAUDE.md já está atualizado."
+  fi
 fi
 
 echo "✅ Claude Code configurado."
