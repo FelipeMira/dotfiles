@@ -58,14 +58,21 @@ fi
 SEP=$(printf "${C_WHITE}│${RESET}")
 
 # ── Thinking animation (cycles every second) ──
-thinking_frames=("🤔" "💭" "🧠" "✨" "💡" "⚡" "🔮" "🌀")
-frame_count=${#thinking_frames[@]}
 current_sec=$(date +%s)
-frame_index=$(( current_sec % frame_count ))
-thinking_emoji="${thinking_frames[$frame_index]}"
+frame_index=$(( current_sec % 8 ))
+case $frame_index in
+  0) thinking_emoji="🤔" ;;
+  1) thinking_emoji="💭" ;;
+  2) thinking_emoji="🧠" ;;
+  3) thinking_emoji="✨" ;;
+  4) thinking_emoji="💡" ;;
+  5) thinking_emoji="⚡" ;;
+  6) thinking_emoji="🔮" ;;
+  7) thinking_emoji="🌀" ;;
+esac
 
 # ── Build parts ──
-model_part=$(printf "${C_MAGENTA}${thinking_emoji} ${BOLD}${model}${RESET}")
+model_part=$(printf "${C_MAGENTA}${thinking_emoji} ${SEP} ${BOLD}${model}${RESET}")
 dir_part=$(printf "${C_CYAN}📂 ${BOLD}${cwd_display}${RESET}")
 
 git_part=""
