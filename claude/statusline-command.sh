@@ -32,8 +32,41 @@ seven_day=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // emp
 git_worktree=$(echo "$input" | jq -r '.workspace.git_worktree // empty')
 vim_mode=$(echo "$input" | jq -r '.vim.mode // empty')
 
-# ── Shorten cwd: replace $HOME with ~ ──
-cwd_display="${cwd/#$HOME/~}"
+# ── Shorten cwd: ellipsis style (~/…/penultimate/last) ──
+cwd_display=$(bash -c '
+  cwd="$1"
+  home="$HOME"
+  ellipsis="…"
+
+  # Exactly $HOME
+  if [[ "$cwd" == "$home" ]]; then
+    echo "~"
+    exit 0
+  fi
+
+  if [[ "$cwd" == "$home/"* ]]; then
+    rel="${cwd#$home/}"
+    IFS="/" read -ra segs <<< "$rel"
+    n=${#segs[@]}
+    if [ "$n" -le 2 ]; then
+      # 1 or 2 segments: show full ~/<segs>
+      echo "~/${rel}"
+    else
+      # More than 2 segments: ~/…/penultimate/last
+      echo "~/${ellipsis}/${segs[$((n-2))]}/${segs[$((n-1))]}"
+    fi
+  else
+    # Not under HOME: …/penultimate/last
+    rel="${cwd#/}"
+    IFS="/" read -ra segs <<< "$rel"
+    n=${#segs[@]}
+    if [ "$n" -le 2 ]; then
+      echo "/${rel}"
+    else
+      echo "${ellipsis}/${segs[$((n-2))]}/${segs[$((n-1))]}"
+    fi
+  fi
+' _ "$cwd")
 
 # ── Git branch ──
 git_branch=""
