@@ -7,15 +7,5 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting macos)
 
 source $ZSH/oh-my-zsh.sh
 
-# Java 17
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-
-# Python 3.11
-export PATH="/opt/homebrew/bin/python3.11:$PATH"
-alias python="python3.11"
-alias pip="pip3.11"
-
-# Android SDK
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+# Configs locais (não versionadas)
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

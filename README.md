@@ -24,6 +24,8 @@ chmod +x setup.sh
 
 Após o setup, abra uma nova aba do terminal ou rode:
 
+> Configs específicas da sua máquina (paths, aliases, SDKs) ficam em `~/.zshrc.local` — esse arquivo é carregado automaticamente mas nunca vai pro repositório.
+
 ```bash
 source ~/.zshrc
 ```
