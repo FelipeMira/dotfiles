@@ -11,6 +11,7 @@ Configuração do terminal e do Claude Code para qualquer máquina nova.
   - `macos` — atalhos úteis para macOS
   - `git` — info de branch no prompt
 - **Claude Code statusline** — modelo, pasta, branch, barra de contexto e uso de rate limits
+  - Animação de pensamento com emojis ciclando a cada segundo
 
 ## Instalação
 
@@ -44,12 +45,13 @@ dotfiles/
 A barra inferior do Claude Code exibe:
 
 ```
-✦ Claude Sonnet 4 │  ~/pasta │  main │  ctx: ████░░░░░░ 42%
+🤔 Claude Sonnet 4 │  ~/pasta │  main │  ctx: ████░░░░░░ 42%
 ```
 
 | Segmento | Descrição |
 |---|---|
-| `✦ Modelo` | Nome do modelo ativo |
+| Emoji animado | Cicla a cada segundo: 🤔 💭 🧠 ✨ 💡 ⚡ 🔮 🌀 |
+| ` Modelo` | Nome do modelo ativo |
 | ` Pasta` | Diretório de trabalho atual |
 | ` Branch` | Branch git atual |
 | `ctx: ████░░` | Uso da janela de contexto (verde → amarelo → vermelho) |
