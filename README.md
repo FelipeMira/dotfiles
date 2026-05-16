@@ -5,6 +5,7 @@ Configuração do terminal e do Claude Code para qualquer máquina nova.
 ## O que inclui
 
 - **Oh My Zsh** com tema `agnoster`
+- **MesloLGS Nerd Font** — necessária para renderizar os ícones do tema corretamente
 - **Plugins zsh:**
   - `zsh-autosuggestions` — sugestões enquanto digita (aceite com `→`)
   - `zsh-syntax-highlighting` — comandos ficam verdes (válido) ou vermelhos (inválido)
@@ -21,7 +22,7 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-Após o setup, abra uma nova aba do terminal ou rode:
+Após o setup, configure a fonte **MesloLGS NF** no seu terminal (Preferências → Perfis → Fonte) e abra uma nova aba ou rode:
 
 ```bash
 source ~/.zshrc
