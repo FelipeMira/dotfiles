@@ -71,13 +71,13 @@ O `~/.zshrc` carrega o `~/.zshrc.local` automaticamente se ele existir.
 A barra inferior do Claude Code exibe em tempo real:
 
 ```
-Sonnet 4.6 │ 📂 ~/pasta │ 🌿 main │ 🧩 ctx: ████░░ 37% 74k/200k │ 💬 48k │ ⏱️ 5h 9% · 7d 1%
+Sonnet 4.6 │ 📂 ~/…/github/dotfiles │ 🌿 main │ 🧩 ctx: ████░░ 37% 74k/200k │ 💬 48k │ ⏱️ 5h 9% · 7d 1%
 ```
 
 | Segmento | Ícone | Descrição |
 |---|---|---|
 | Modelo | — | Nome do modelo ativo (ex: Sonnet 4.6) |
-| Pasta | 📂 | Diretório de trabalho atual (com `~` no lugar do home) |
+| Pasta | 📂 | Diretório de trabalho atual — caminhos longos são truncados no formato `~/…/pai/atual` |
 | Branch | 🌿 | Branch git atual (só aparece em repositórios git) |
 | Contexto | 🧩 | Barra + percentual + tokens usados/total da janela de contexto (muda de cor: verde → amarelo → vermelho) |
 | Tokens da sessão | 💬 | Total acumulado (input + output) na conversa atual |
