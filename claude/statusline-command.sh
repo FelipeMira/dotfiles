@@ -82,7 +82,7 @@ session_part=""
 [ -n "$session_name" ] && session_part=$(printf " ${SEP} ${C_PURPLE} ${session_name}${RESET}")
 
 ctx_part=""
-[ -n "$context_bar" ] && ctx_part=$(printf "${SEP} ${C_WHITE}🧩 ctx:${RESET} ")$(printf "%s" "${context_bar}")
+[ -n "$context_bar" ] && ctx_part=$(printf "${C_WHITE}🧩 ctx:${RESET} ")$(printf "%s" "${context_bar}")
 
 session_tokens=""
 if [ -n "$total_in" ] && [ -n "$total_out" ]; then
