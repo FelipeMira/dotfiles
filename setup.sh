@@ -39,13 +39,21 @@ cp "$SCRIPT_DIR/zsh/zshrc" "$HOME/.zshrc"
 echo "✅ .zshrc configurado."
 
 # ── 4. Claude Code ────────────────────────────
-echo "⚙️  Configurando Claude Code statusline..."
+echo "⚙️  Configurando Claude Code..."
 mkdir -p "$HOME/.claude"
 
 cp "$SCRIPT_DIR/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 chmod +x "$HOME/.claude/statusline-command.sh"
 
 cp "$SCRIPT_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+
+if [ ! -f "$HOME/.claude/CLAUDE.md" ]; then
+  cp "$SCRIPT_DIR/claude/CLAUDE.md.example" "$HOME/.claude/CLAUDE.md"
+  echo "✅ CLAUDE.md criado a partir do template — edite ~/.claude/CLAUDE.md com suas preferências pessoais."
+else
+  echo "✅ CLAUDE.md já existe, mantido sem alterações."
+fi
+
 echo "✅ Claude Code configurado."
 
 # ── Fim ───────────────────────────────────────

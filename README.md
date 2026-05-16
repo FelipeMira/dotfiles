@@ -38,9 +38,19 @@ dotfiles/
 ├── zsh/
 │   └── zshrc                   # configuração do zsh / Oh My Zsh
 └── claude/
-    ├── settings.json           # configurações do Claude Code
-    └── statusline-command.sh   # statusline personalizada
+    ├── settings.json           # configurações do Claude Code (tema, statusline)
+    ├── statusline-command.sh   # statusline personalizada
+    └── CLAUDE.md.example       # template de instruções para o Claude
 ```
+
+### Arquivos locais (não versionados)
+
+| Arquivo | Descrição |
+|---|---|
+| `~/.zshrc.local` | Paths e aliases específicos da sua máquina (SDKs, ferramentas) |
+| `~/.claude/CLAUDE.md` | Instruções pessoais para o Claude (tom, contexto local, preferências) |
+
+O `setup.sh` cria o `CLAUDE.md` a partir do template na primeira execução. Edite-o com suas preferências — ele nunca será sobrescrito pelo setup.
 
 ## Statusline do Claude Code
 

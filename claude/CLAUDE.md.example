@@ -1,0 +1,44 @@
+# Instruções Globais
+
+> Copie este arquivo para ~/.claude/CLAUDE.md e personalize conforme sua preferência.
+> Este arquivo NÃO é versionado — suas instruções pessoais ficam apenas na sua máquina.
+
+---
+
+## Comportamento geral
+
+<!-- Como você quer que o Claude se comunique com você? -->
+<!-- Exemplos: idioma preferido, tom formal/informal, uso de emojis, etc. -->
+
+- Responder sempre em [seu idioma preferido]
+- Respostas curtas e diretas
+<!-- - Sempre me chamar de [seu nome/apelido] -->
+
+---
+
+## Formato de respostas
+
+<!-- Preferências de formatação -->
+
+- Usar markdown quando relevante
+- Preferir exemplos práticos a explicações teóricas
+- Não adicionar sumários ao final das respostas
+
+---
+
+## Projetos e contexto local
+
+<!-- Caminhos, ferramentas e contexto específicos da sua máquina -->
+<!-- Exemplos: vault do Obsidian, workspace principal, ferramentas preferidas -->
+
+<!-- export WORKSPACE="$HOME/dev" -->
+<!-- Vault Obsidian: ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/... -->
+
+---
+
+## Restrições
+
+<!-- O que o Claude NÃO deve fazer -->
+
+- Não criar arquivos desnecessários
+- Não commitar sem aprovação explícita
