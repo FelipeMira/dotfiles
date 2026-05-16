@@ -31,22 +31,14 @@ else
   echo "✅ zsh-syntax-highlighting já instalado."
 fi
 
-# ── 3. Nerd Font ──────────────────────────────
-if brew list --cask font-meslo-lg-nerd-font &>/dev/null; then
-  echo "✅ MesloLGS Nerd Font já instalada."
-else
-  echo "📦 Instalando MesloLGS Nerd Font..."
-  brew install --cask font-meslo-lg-nerd-font
-fi
-
-# ── 4. .zshrc ─────────────────────────────────
+# ── 3. .zshrc ─────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "⚙️  Copiando .zshrc..."
 cp "$SCRIPT_DIR/zsh/zshrc" "$HOME/.zshrc"
 echo "✅ .zshrc configurado."
 
-# ── 5. Claude Code ────────────────────────────
+# ── 4. Claude Code ────────────────────────────
 echo "⚙️  Configurando Claude Code statusline..."
 mkdir -p "$HOME/.claude"
 
