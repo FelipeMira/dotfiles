@@ -119,5 +119,5 @@ fi
 line1="${model_part} ${SEP} ${dir_part}${git_part}${worktree_part}${session_part}"
 line2="${ctx_part}${session_tokens}${rate_part}${vim_part}"
 
-# ── Assemble em duas linhas ──
-printf "%s\n%s" "${line1}" "${line2}"
+# ── Assemble ──
+printf "%s" "${line1} ${SEP} ${line2}"
